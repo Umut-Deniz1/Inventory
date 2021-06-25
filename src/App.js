@@ -18,10 +18,37 @@ function App() {
     setData({ items: items });
     console.log(data);
   };
+
+  const filterData = (data) =>{
+    const filterData = [];
+
+    if(!filters.name){
+      return data;
+    }
+    for(const item of data){
+      if(filters.name !== "" && item.name !== filters.name){
+        continue;
+      }
+
+      if(filters.price !== 0 && item.price > filters.price){
+        continue;
+      }
+
+      if(filters.type !== "" && item.type !== filters.type){
+        continue;
+      }
+
+      if(filters.brand !== "" && item.brand !== filters.brand){
+        continue;
+      }
+      filterData.push(item)
+    }
+    return filterData;
+  }
   return (
     <div className="container">
       <div className="row mt-3">
-        <ItemsDisplay items={data["items"]} />
+        <ItemsDisplay items={filterData(data["items"])} />
       </div>
       <div className="row m-3">
         <SearchBar updateSearchParaams={updateFilters} />
