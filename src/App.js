@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import AddItem from "./AddItem";
 import ItemsDisplay from "./ItemsDisplay";
@@ -8,43 +8,60 @@ function App() {
   const [filters, setFilters] = useState({});
   const [data, setData] = useState({ items: [] });
 
+  useEffect(() => {
+    fetch("http://localhost:3000/items")
+      .then((Response) => Response.json())
+      .then((data) => setData({ items: data }));
+  }, []);
+
   const updateFilters = (searchParams) => {
     setFilters(searchParams);
   };
   const addItemToData = (item) => {
     let items = data["items"];
-    item.id = items.length;
-    items.push(item);
-    setData({ items: items });
-    console.log(data);
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    };
+
+    fetch("http://localhost:3000/items", requestOptions)
+      .then((Response) => Response.json())
+      .then((data) => {
+        items.push(data);
+        setData({ items: items });
+      });
   };
 
-  const filterData = (data) =>{
+  const filterData = (data) => {
     const filterData = [];
 
-    if(!filters.name){
+    if (!filters.name) {
       return data;
     }
-    for(const item of data){
-      if(filters.name !== "" && item.name !== filters.name){
+    for (const item of data) {
+      if (filters.name !== "" && item.name !== filters.name) {
         continue;
       }
 
-      if(filters.price !== 0 && item.price > filters.price){
+      if (filters.price !== 0 && item.price > filters.price) {
         continue;
       }
 
-      if(filters.type !== "" && item.type !== filters.type){
+      if (filters.type !== "" && item.type !== filters.type) {
         continue;
       }
 
-      if(filters.brand !== "" && item.brand !== filters.brand){
+      if (filters.brand !== "" && item.brand !== filters.brand) {
         continue;
       }
-      filterData.push(item)
+      filterData.push(item);
     }
     return filterData;
-  }
+  };
   return (
     <div className="container">
       <div className="row mt-3">
