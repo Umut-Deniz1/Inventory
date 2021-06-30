@@ -1,15 +1,22 @@
-function ItemsDisplay(props) {
-    const ShowItems = (item) => {
-        return (
-            <tr>
-              <th scope="row">{item.id}</th>
-              <td>{item.name}</td>
-              <td>{item.price}</td>
-              <td> {item.type}</td>
-              <td>{item.brand}</td>
-            </tr>
-          );
-    }
+function ItemsDisplay({items, deleteItem}) {
+  const ShowItems = (item) => {
+    return (
+      <tr>
+        <th scope="row">{item.id}</th>
+        <td>{item.name}</td>
+        <td>{item.price}</td>
+        <td> {item.type}</td>
+        <td>{item.brand}</td>
+        <td>
+          <button className="btn btn-danger" onClick={() => {
+            deleteItem(item)
+          }}>
+            Delete
+          </button>
+        </td>
+      </tr>
+    );
+  };
   return (
     <div className="container">
       <div className="row">
@@ -24,11 +31,10 @@ function ItemsDisplay(props) {
               <th scope="col">Price</th>
               <th scope="col">Type</th>
               <th scope="col">Brand</th>
+              <th scope="col">Delete</th>
             </tr>
           </thead>
-          <tbody>
-          {props.items.map(ShowItems)}
-          </tbody>
+          <tbody>{items.map(ShowItems)}</tbody>
         </table>
       </div>
     </div>

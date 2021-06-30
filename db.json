@@ -1,18 +1,3 @@
 {
-  "items": [
-    {
-      "name": "kalem",
-      "price": "3.99",
-      "type": "black",
-      "brand": "dnx",
-      "id": 1
-    },
-    {
-      "name": "klavye",
-      "price": "24",
-      "type": "white",
-      "brand": "asus",
-      "id": 2
-    }
-  ]
+  "items": []
 }
